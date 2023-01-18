@@ -1,34 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import WordBtn from "./WordBtn";
+
+const words = [
+  "apple",
+  "banana",
+  "cherry",
+  // "dragonfruit",
+  "elderberry",
+  "appluu",
+];
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const handleAddWord = (word: string) => {
+    setSelected((prev) => [...prev, word]);
+  };
+
+  const handleRemoveWord = (word: string) => {
+    setSelected((prev) => prev.filter((w) => w !== word));
+  };
+
+  const getWordSelected = (word: string) => {
+    return selected.includes(word);
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container flex flex-col gap-4 mx-auto">
+      <div className="w-full border border-dashed border-indigo-600 max-w-[400px] mx-auto h-[40px] flex gap-3 items-center justify-center">
+        {selected.map((word) => (
+          <button
+            className="text-indigo-600"
+            onClick={() => handleRemoveWord(word)}
+          >
+            {word}
+          </button>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+
+      <div className="w-full  max-w-[400px] mx-auto flex gap-2">
+        {words.map((word) => (
+          <WordBtn
+            word={word}
+            onMatch={handleAddWord}
+            onSelected={handleAddWord}
+            selected={getWordSelected(word)}
+          />
+        ))}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
