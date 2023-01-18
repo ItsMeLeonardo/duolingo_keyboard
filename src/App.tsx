@@ -73,7 +73,6 @@ function App() {
         handleBackspace();
         return;
       }
-      if (key < "a" || key > "z") return;
 
       const matches = getWordMatches(`${state.words.value}${key}`);
 
